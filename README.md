@@ -192,7 +192,12 @@ The environment includes four departments, each with a different security postur
 
 \- `evidence/README.md` – notes for sanitized screenshots and proof points
 
+\## Quick Start
 
+1. Review `docs/setup-overview.md` for the environment design
+2. Use `docs/lab-guide.md` for the full build sequence
+3. Run scripts from the `scripts/` folder as needed in your lab environment
+4. Validate onboarding, logging, and detections using the included PowerShell and KQL examples
 
 \## NIST CSF Alignment
 
