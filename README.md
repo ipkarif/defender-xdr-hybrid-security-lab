@@ -1,3 +1,6 @@
+![Status](https://img.shields.io/badge/Project-Active-blue)
+![Focus](https://img.shields.io/badge/Focus-Cybersecurity-green)
+
 \# Hybrid Security Operations Lab
 
 \*\*Defender XDR + Sentinel + Security Copilot + Azure Policy\*\*
@@ -156,6 +159,17 @@ The environment includes four departments, each with a different security postur
 
 \- Defender for Cloud posture review and secure score improvement
 
+\## Key Outcomes
+
+This lab demonstrates the ability to:
+
+- Design a hybrid security architecture with segmented departments and role-based access controls
+- Implement policy-based security controls across identity, endpoints, and network layers
+- Onboard and validate endpoints in Microsoft Defender XDR for centralized monitoring
+- Use Microsoft Sentinel for log ingestion, detection, and investigation using KQL
+- Apply Azure Policy and Defender for Cloud to enforce governance and improve security posture
+- Simulate security events and validate detection and response workflows
+- Use Security Copilot concepts to assist with incident triage and investigation
 
 
 \## Architecture
@@ -164,7 +178,16 @@ The environment includes four departments, each with a different security postur
 
 !\[Hybrid Security Lab Architecture](architecture/hybrid-security-lab-topology.png)
 
+\## Sample Evidence
 
+The following are representative examples of validation and monitoring in this lab environment:
+- Microsoft Defender XDR device inventory and alerts
+- Microsoft Sentinel incidents and analytics rules
+- Azure Policy compliance results
+- Secure score and posture insights
+- Sample KQL query outputs
+
+Detailed and sanitized screenshots can be found in the `evidence/` folder.
 
 \## Repository Structure
 
@@ -242,7 +265,16 @@ Where direct screenshots were not appropriate to publish, Microsoft Learn refere
 
 This repository is presented as an independent hands-on security lab project. It is intended to demonstrate practical infrastructure security, governance, detection, and response concepts in a Microsoft hybrid environment.
 
+\## Skills Demonstrated
 
+- Security Operations (SOC concepts, incident triage, alert investigation)
+- Microsoft Defender XDR (endpoint protection, alerts, incident visibility)
+- SIEM and Monitoring (Microsoft Sentinel, KQL queries, analytics rules)
+- Azure Security (Policy, NSG, Defender for Cloud, governance)
+- Identity and Access Management (Active Directory, Entra ID concepts)
+- Network Security (segmentation, subnet design, access control)
+- PowerShell scripting (automation, validation, event simulation)
+- Security Framework Alignment (NIST Cybersecurity Framework)
 
 \## Author
 
