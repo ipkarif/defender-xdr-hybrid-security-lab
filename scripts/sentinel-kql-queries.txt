@@ -1,0 +1,126 @@
+Hybrid Security Operations Lab
+Microsoft Sentinel - KQL Query Samples
+
+Note:
+These queries are intended for controlled lab use and learning.
+Adjust table names, field names, and connector availability based on your environment.
+
+------------------------------------------------------------
+1. Failed Sign-ins from Multiple Countries
+------------------------------------------------------------
+
+let timeframe = 1h;
+SigninLogs
+| where TimeGenerated > ago(timeframe)
+| where ResultType != 0
+| summarize Countries = make_set(Location), Attempts = count() by UserPrincipalName, IPAddress
+| where array_length(Countries) > 1
+| extend AccountCustomEntity = UserPrincipalName, IPCustomEntity = IPAddress
+
+Purpose:
+Detect potentially suspicious failed sign-in attempts from more than one location within a short timeframe.
+
+------------------------------------------------------------
+2. Finance Department Related Defender Alerts
+------------------------------------------------------------
+
+SecurityAlert
+| where ProductName has "Defender"
+| where Entities has "Finance" or Entities has "finuser"
+| project TimeGenerated, AlertName, Severity, ProductName, Entities
+
+Purpose:
+Highlight alerts that may involve Finance department devices or users.
+
+------------------------------------------------------------
+3. Azure NSG Rule Changes
+------------------------------------------------------------
+
+AzureActivity
+| where OperationNameValue contains "Microsoft.Network/networkSecurityGroups"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, OperationNameValue, ResourceGroup, SubscriptionId
+
+Purpose:
+Track successful changes made to network security groups.
+
+------------------------------------------------------------
+4. Failed Windows Logons
+------------------------------------------------------------
+
+SecurityEvent
+| where EventID == 4625
+| project TimeGenerated, Computer, Account, IpAddress, FailureReason, LogonType
+
+Purpose:
+Review failed Windows authentication attempts from lab systems.
+
+------------------------------------------------------------
+5. Successful Privileged Logons
+------------------------------------------------------------
+
+SecurityEvent
+| where EventID == 4624
+| where Account has "admin" or Account has "itadmin"
+| project TimeGenerated, Computer, Account, IpAddress, LogonType
+
+Purpose:
+Track successful sign-ins associated with higher-privilege accounts.
+
+------------------------------------------------------------
+6. Defender Incidents by Severity
+------------------------------------------------------------
+
+SecurityIncident
+| summarize Count = count() by Severity
+| order by Count desc
+
+Purpose:
+Provide a quick breakdown of incident severity levels.
+
+------------------------------------------------------------
+7. Devices with Recent Defender Alerts
+------------------------------------------------------------
+
+SecurityAlert
+| where ProductName has "Defender"
+| summarize AlertCount = count() by CompromisedEntity
+| order by AlertCount desc
+
+Purpose:
+Identify systems with the highest number of recent alerts.
+
+------------------------------------------------------------
+8. Entra ID Sign-in Failures
+------------------------------------------------------------
+
+SigninLogs
+| where ResultType != 0
+| project TimeGenerated, UserPrincipalName, IPAddress, AppDisplayName, ResultDescription
+
+Purpose:
+Review failed sign-ins in Microsoft Entra ID.
+
+------------------------------------------------------------
+9. Policy Violation Related Activity
+------------------------------------------------------------
+
+AzureActivity
+| where ActivityStatusValue has "Failed"
+| where Properties has "policy"
+| project TimeGenerated, Caller, OperationNameValue, ResourceGroup, Properties
+
+Purpose:
+Help identify Azure activity blocked or affected by policy enforcement.
+
+------------------------------------------------------------
+10. Basic Hunting Template for Suspicious PowerShell Activity
+------------------------------------------------------------
+
+SecurityEvent
+| where EventID == 4688
+| where Process has "powershell"
+| project TimeGenerated, Computer, Account, Process, CommandLine
+
+Purpose:
+Review PowerShell process creation for basic lab hunting scenarios.

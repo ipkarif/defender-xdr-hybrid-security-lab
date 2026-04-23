@@ -1,0 +1,45 @@
+Azure Foundation Commands
+
+# Login
+az login
+az account set --subscription "<SubscriptionNamePlaceholder>"
+
+# Resource Group
+az group create --name "RG-SECURITY-LAB" --location "eastus"
+
+# Virtual Network and Subnets
+az network vnet create \
+  --resource-group "RG-SECURITY-LAB" \
+  --name "VNET-PROD-01" \
+  --address-prefixes 10.0.0.0/16 \
+  --subnet-name "Subnet-IT" \
+  --subnet-prefixes 10.0.1.0/24 \
+  --location "eastus"
+
+az network vnet subnet create --resource-group "RG-SECURITY-LAB" --vnet-name "VNET-PROD-01" --name "Subnet-Finance" --address-prefixes 10.0.2.0/24
+az network vnet subnet create --resource-group "RG-SECURITY-LAB" --vnet-name "VNET-PROD-01" --name "Subnet-HR" --address-prefixes 10.0.3.0/24
+az network vnet subnet create --resource-group "RG-SECURITY-LAB" --vnet-name "VNET-PROD-01" --name "Subnet-Marketing" --address-prefixes 10.0.4.0/24
+az network vnet subnet create --resource-group "RG-SECURITY-LAB" --vnet-name "VNET-PROD-01" --name "Subnet-DC" --address-prefixes 10.0.10.0/24
+az network vnet subnet create --resource-group "RG-SECURITY-LAB" --vnet-name "VNET-PROD-01" --name "AzureBastionSubnet" --address-prefixes 10.0.5.0/24
+
+# Network Security Groups
+az network nsg create --resource-group "RG-SECURITY-LAB" --name "NSG-IT"
+az network nsg create --resource-group "RG-SECURITY-LAB" --name "NSG-Finance"
+az network nsg create --resource-group "RG-SECURITY-LAB" --name "NSG-HR"
+az network nsg create --resource-group "RG-SECURITY-LAB" --name "NSG-Marketing"
+az network nsg create --resource-group "RG-SECURITY-LAB" --name "NSG-DC"
+
+# Example VM Creation
+az vm create \
+  --resource-group "RG-SECURITY-LAB" \
+  --name "AZ-DC01" \
+  --location "eastus" \
+  --size "Standard_B2s" \
+  --image "MicrosoftWindowsServer:WindowsServer:2022-Datacenter:latest" \
+  --admin-username "azureadmin" \
+  --admin-password "<AzureAdminPasswordPlaceholder>" \
+  --vnet-name "VNET-PROD-01" \
+  --subnet "Subnet-DC" \
+  --public-ip-address "" \
+  --nsg "" \
+  --private-ip-address 10.0.10.10
